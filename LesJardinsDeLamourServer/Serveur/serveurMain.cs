@@ -167,7 +167,14 @@ class serverMain
             /*----------------------------------------------------------------------------------------------------*/
             case "svr -c-x":
             case "svr -x-c":
-                servShutdownStart(true);
+                if (clients.Count() == 0)
+                {
+                    servShutdownStart(true);
+                }
+                else
+                {
+                    output.outToScreen(clients.Count() + " Utilisateurs");                    
+                }
                 break;
             /*----------------------------------------------------------------------------------------------------*/
             case "users":

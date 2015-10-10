@@ -21,14 +21,17 @@ class controlerPlayers
         if (awaitingMatchup == null)
         {
             awaitingMatchup = player;
+            player.setIsFirst(true);
         }
         else
         {
             AddPlayer(player.ID);
             AddPlayer(awaitingMatchup.ID);
+            player.setIsFirst(false);
             awaitingMatchup.setOponen(player.ID);
             player.setOponen(awaitingMatchup.ID);
             awaitingMatchup = null;
+
         }
     }
 

@@ -24,6 +24,12 @@ class Client
         private set;
     }
 
+    public bool isFirst
+    {
+        get;
+        private set;
+    }
+
 
     public IPEndPoint EndPoint
     {
@@ -50,7 +56,14 @@ class Client
     {
         oponenID = opID;
         message mes = new message("startMatch");
+        mes.addNetObject(new NetObject(""));
+        mes.getNetObject(0).addBool("", isFirst);
         controlerPlayers.sendMessageToClient(mes, oponenID);
+    }
+
+    public void setIsFirst(bool value)
+    {
+        isFirst = value;
     }
 
     public void unsetOponen()
@@ -147,6 +160,8 @@ class Client
         output.outToScreen(mes.messageText);
         switch (mes.messageText)
         {
+                
+
             /*----------------------------------------------------------------------------------------------------*/
             case "queueMatch":
                 controlerPlayers.Queud(this);
@@ -156,6 +171,10 @@ class Client
             case "sendImage":
                 mes.messageText = "receiveImage";
                 controlerPlayers.sendMessageToClient(mes, oponenID);
+                break;
+        /*----------------------------------------------------------------------------------------------------*/
+            case "disconnect":
+                //serverMain.client_Disconnected(this);
                 break;
             /*----------------------------------------------------------------------------------------------------*/
             default:
