@@ -84,7 +84,6 @@ class serverMain
         client.Disconnected += new Client.ClientDisconectHandeler(client_Disconnected);
 
         output.outToScreen(clients.Count() + " Utilisateurs");
-        controlerPlayers.Queud(client);
     }
 
     public static void client_Disconnected(Client sender)

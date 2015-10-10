@@ -49,12 +49,8 @@ class Client
     public void setOponen(string opID)
     {
         oponenID = opID;
-        /*message mes = new message("text");
-        mes.addNetObject(new NetObject(""));
-        mes.getNetObject(0).addString("","vous avez été match vs "+ ID);
-        string test = conversionTools.convertMessageToString(mes);
-        output.outToScreen(conversionTools.convertMessageToString(conversionTools.convertStringToMessage(test)));
-        controlerPlayers.sendMessageToClient(mes, oponenID);*/
+        message mes = new message("startMatch");
+        controlerPlayers.sendMessageToClient(mes, oponenID);
     }
 
     public void unsetOponen()
@@ -154,8 +150,8 @@ class Client
         switch (mes.messageText)
         {
             /*----------------------------------------------------------------------------------------------------*/
-            case "":
-                
+            case "queueMatch":
+                controlerPlayers.Queud(this);
                 break;
      
             /*----------------------------------------------------------------------------------------------------*/

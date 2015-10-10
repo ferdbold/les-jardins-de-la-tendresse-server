@@ -9,14 +9,14 @@ class controlerPlayers
 {
 
     public static List<Client> playersConnected;
-    private Client awaitingMatchup = null;
+    private static Client awaitingMatchup = null;
     public controlerPlayers()
     {
         playersConnected = new List<Client>();
     }
 
 
-    public void Queud(Client player)
+    public static void Queud(Client player)
     {
         if (awaitingMatchup == null)
         {
@@ -32,7 +32,7 @@ class controlerPlayers
         }
     }
 
-    public bool Unqueud(Client player)
+    public static bool Unqueud(Client player)
     {
         if (awaitingMatchup == player)
         {
