@@ -35,6 +35,10 @@ class controlerPlayers
         }
     }
 
+
+
+
+
     public static bool Unqueud(Client player)
     {
         if (awaitingMatchup == player)
@@ -96,6 +100,12 @@ class controlerPlayers
 
         }
 
+    }
+
+    public static void sendMessageToMatch(message mes, string firstClientID, string secondClientID)
+    {
+        sendMessageToClient(mes, firstClientID);
+        sendMessageToClient(mes, secondClientID);
     }
 
     public static void sendMessageToClient(message mes, string clientID)

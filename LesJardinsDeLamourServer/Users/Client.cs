@@ -24,11 +24,13 @@ class Client
         private set;
     }
 
-    public bool isFirst
+    public bool isLead
     {
         get;
         private set;
     }
+
+    private int relationLevel;
 
 
     public IPEndPoint EndPoint
@@ -57,13 +59,32 @@ class Client
         oponenID = opID;
         message mes = new message("startMatch");
         mes.addNetObject(new NetObject(""));
-        mes.getNetObject(0).addBool("", isFirst);
+        mes.getNetObject(0).addBool("", isLead);
         controlerPlayers.sendMessageToClient(mes, oponenID);
+
+        if (isLead)
+        {
+            startDate();
+            relationLevel = 0;
+        }
     }
 
-    public void setIsFirst(bool value)
+
+    private void startDate()
     {
-        isFirst = value;
+        if (isLead)
+        {
+            relationLevel++;
+            message mes = new message("startDate");
+            mes.addNetObject(DateData.getRandomDateTheme(relationLevel));
+            mes.getNetObject(0).addInt("relationLevel", relationLevel);
+            controlerPlayers.sendMessageToMatch(mes, ID, oponenID);
+        }
+    }
+
+    public void setIsLead(bool value)
+    {
+        isLead = value;
     }
 
     public void unsetOponen()
