@@ -1,0 +1,111 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using Message;
+
+
+class controlerPlayers
+{
+
+    public static List<Client> playersConnected;
+    private Client awaitingMatchup = null;
+    public controlerPlayers()
+    {
+        playersConnected = new List<Client>();
+    }
+
+
+    public void Queud(Client player)
+    {
+        if (awaitingMatchup == null)
+        {
+            awaitingMatchup = player;
+        }
+        else
+        {
+            AddPlayer(player.ID);
+            AddPlayer(awaitingMatchup.ID);
+            awaitingMatchup.setOponen(player.ID);
+            player.setOponen(awaitingMatchup.ID);
+            awaitingMatchup = null;
+        }
+    }
+
+    public bool Unqueud(Client player)
+    {
+        if (awaitingMatchup == player)
+        {
+            awaitingMatchup = null;
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+
+    public static void AddPlayer(string clientID)
+    {
+        for (int i = 0; i < serverMain.clients.Count; i++)
+        {
+            Client client = serverMain.clients[i];
+            if (client.ID == clientID)
+            {
+                playersConnected.Add(client);
+
+            }
+        }
+     
+    }
+
+
+    public static Client GetPlayer(string clientID)
+    {
+        
+        for (int i = 0; i < playersConnected.Count; i++)
+        {
+            Client client = playersConnected[i];
+
+            if (client.ID == clientID)
+            {
+                return client;
+            }
+        }
+        return null;
+    }
+
+    public static void RemovePlayer(string clientID)
+    {
+        
+        for (int i = 0; i < playersConnected.Count; i++)
+        {
+            Client client = playersConnected[i];
+
+            if (client.ID == clientID)
+            {
+                if (client.oponenID != "")
+                {
+                    GetPlayer(client.oponenID).unsetOponen();
+                }
+                playersConnected.RemoveAt(i);
+            }
+
+        }
+
+    }
+
+    public static void sendMessageToClient(message mes, string clientID)
+    {
+        for (int j = 0; j < playersConnected.Count; j++)
+        {
+            Client player = playersConnected[j];
+            if (player.ID == clientID)
+            {
+                player.sendMessage(mes);
+            }
+        }
+    }
+
+}
+
