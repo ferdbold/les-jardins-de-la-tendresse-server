@@ -37,9 +37,6 @@ class serverMain
 
 
 
-    public static string
-        serverName = "Merlipoupidipou";
-
     public static Timer
         shutdown;
 
@@ -173,8 +170,8 @@ class serverMain
                 servShutdownStart(true);
                 break;
             /*----------------------------------------------------------------------------------------------------*/
-            case "database -t":
-                //output.outToScreen("The database is " + (database.isDatabaseRead() ? "available." : "not available."));
+            case "users":
+                output.outToScreen(clients.Count() + " Utilisateurs");
                 break;
 
             /*----------------------------------------------------------------------------------------------------*/
