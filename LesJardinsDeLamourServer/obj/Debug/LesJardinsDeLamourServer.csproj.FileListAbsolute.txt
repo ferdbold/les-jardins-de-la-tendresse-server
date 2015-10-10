@@ -8,3 +8,7 @@ C:\Users\Teranausore2\Desktop\LesJardinsDeLamour\LesJardinsDeLamourServer\LesJar
 C:\Users\Teranausore2\Desktop\les-jardins-de-la-tendresse-server\LesJardinsDeLamourServer\bin\Debug\LesJardinsDeLamourServer.exe.config
 C:\Users\Teranausore2\Desktop\les-jardins-de-la-tendresse-server\LesJardinsDeLamourServer\obj\Debug\LesJardinsDeLamourServer.exe
 C:\Users\Teranausore2\Desktop\les-jardins-de-la-tendresse-server\LesJardinsDeLamourServer\obj\Debug\LesJardinsDeLamourServer.pdb
+C:\Users\Teranausore2\Desktop\les-jardins-de-la-tendresse-server\LesJardinsDeLamourServer\bin\Debug\LesJardinsDeLamourServer.exe
+C:\Users\Teranausore2\Desktop\les-jardins-de-la-tendresse-server\LesJardinsDeLamourServer\bin\Debug\LesJardinsDeLamourServer.pdb
+C:\Users\Teranausore2\Desktop\les-jardins-de-la-tendresse-server\LesJardinsDeLamourServer\bin\Debug\Message.dll
+C:\Users\Teranausore2\Desktop\les-jardins-de-la-tendresse-server\LesJardinsDeLamourServer\obj\Debug\LesJardinsDeLamourServer.csprojResolveAssemblyReference.cache

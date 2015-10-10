@@ -48,6 +48,7 @@ class Client
 
     public void setOponen(string opID)
     {
+        output.outToScreen("matching players");
         oponenID = opID;
         message mes = new message("startMatch");
         controlerPlayers.sendMessageToClient(mes, oponenID);
@@ -152,6 +153,7 @@ class Client
             /*----------------------------------------------------------------------------------------------------*/
             case "queueMatch":
                 controlerPlayers.Queud(this);
+                output.outToScreen("mess queud");
                 break;
      
             /*----------------------------------------------------------------------------------------------------*/
