@@ -60,6 +60,8 @@ class serverMain
         EnableMenuItem(GetSystemMenu(current, false), SC_CLOSE, MF_GRAYED);
         controlerPlayers = new controlerPlayers();
         DateData.initialiseDateTheme();
+        DateData.initialiseDateEvent();
+
         l = new Listener(clientPort);
         l.SocketAccepted += new Listener.SocketAcceptedHandeler(l_SocketAccepted);
         l.Start();

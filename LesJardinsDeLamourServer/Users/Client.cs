@@ -30,6 +30,14 @@ class Client
         private set;
     }
 
+    public bool isOponenRdy
+    {
+        get;
+        set;
+    }
+
+    private bool isRdy;
+    private int themeID;
     private int relationLevel;
 
 
@@ -74,11 +82,32 @@ class Client
     {
         if (isLead)
         {
+            isOponenRdy = false;
+            isRdy = false;
             relationLevel++;
             message mes = new message("startDate");
             mes.addNetObject(DateData.getRandomDateTheme(relationLevel));
             mes.getNetObject(0).addInt("relationLevel", relationLevel);
+            themeID = mes.getNetObject(0).getInt(0);
             controlerPlayers.sendMessageToMatch(mes, ID, oponenID);
+        }
+    }
+
+    public void startEvent()
+    {
+        if (isLead)
+        {
+            if (isRdy && isOponenRdy)
+            {
+                message mes = new message("startEvent");
+                mes.addNetObject(DateData.getRandomDateEvent(themeID));
+                mes.getNetObject(0).addInt("relationLevel", relationLevel);
+                controlerPlayers.sendMessageToMatch(mes, ID, oponenID);
+            }
+        }
+        else
+        {
+            controlerPlayers.GetPlayer(oponenID).startEvent();
         }
     }
 
@@ -181,13 +210,22 @@ class Client
         output.outToScreen(mes.messageText);
         switch (mes.messageText)
         {
-                
-
             /*----------------------------------------------------------------------------------------------------*/
             case "queueMatch":
                 controlerPlayers.Queud(this);
                 break;
-
+            /*----------------------------------------------------------------------------------------------------*/
+            case "dateReady":
+                if (isLead)
+                {
+                    isRdy = true;
+                }
+                else
+                {
+                    controlerPlayers.GetPlayer(oponenID).isOponenRdy = true;
+                }
+                startEvent();
+                break;
             /*----------------------------------------------------------------------------------------------------*/
             case "sendImage":
                 mes.messageText = "receiveImage";
