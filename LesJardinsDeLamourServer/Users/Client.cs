@@ -155,7 +155,12 @@ class Client
                 controlerPlayers.Queud(this);
                 output.outToScreen("mess queud");
                 break;
-     
+
+            /*----------------------------------------------------------------------------------------------------*/
+            case "sendImage":
+                mes.messageText = "receiveImage";
+                controlerPlayers.sendMessageToClient(mes, oponenID);
+                break;
             /*----------------------------------------------------------------------------------------------------*/
             default:
                 output.outToScreen("The client sent a message: " + conversionTools.convertMessageToString(mes));
