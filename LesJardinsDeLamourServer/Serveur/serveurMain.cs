@@ -81,8 +81,6 @@ class serverMain
         clients.Add(client);
         client.Received += new Client.ClientReveivedHandeler(client_Received);
         client.Disconnected += new Client.ClientDisconectHandeler(client_Disconnected);
-
-        output.outToScreen(clients.Count() + " Utilisateurs");
     }
 
     public static void client_Disconnected(Client sender)

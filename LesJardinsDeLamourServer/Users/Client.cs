@@ -30,13 +30,14 @@ class Client
         private set;
     }
 
-    public bool isOponenRdy
+    public string playerName
     {
         get;
         set;
     }
 
-    private bool isRdy;
+
+    private bool isRdy=false;
     private int themeID;
     private int relationLevel;
 
@@ -68,13 +69,12 @@ class Client
         message mes = new message("startMatch");
         mes.addNetObject(new NetObject(""));
         mes.getNetObject(0).addBool("", isLead);
-        controlerPlayers.sendMessageToClient(mes, oponenID);
+        sendMessage(mes);
+    }
 
-        if (isLead)
-        {
-            startDate();
-            relationLevel = 0;
-        }
+    private bool isOponenRdy()
+    {
+        return controlerPlayers.GetPlayer(oponenID).isRdy;
     }
 
 
@@ -82,7 +82,8 @@ class Client
     {
         if (isLead)
         {
-            isOponenRdy = false;
+            relationLevel = 0;
+            controlerPlayers.GetPlayer(oponenID).isRdy = false;
             isRdy = false;
             relationLevel++;
             message mes = new message("startDate");
@@ -93,21 +94,48 @@ class Client
         }
     }
 
+    public void sendName()
+    {
+        if (isRdy && isOponenRdy())
+        {
+            message messageName = new message("oponenName");
+            messageName.addNetObject(new NetObject(""));
+            messageName.getNetObject(0).addString("", playerName);
+            controlerPlayers.GetPlayer(oponenID).sendMessage(messageName);
+
+            messageName = new message("oponenName");
+            messageName.addNetObject(new NetObject(""));
+            messageName.getNetObject(0).addString("", controlerPlayers.GetPlayer(oponenID).playerName);
+            sendMessage(messageName);
+            if (isLead)
+            {
+                startEvent();
+            }
+            else
+            {
+                controlerPlayers.GetPlayer(oponenID).startEvent();
+            }
+        }
+
+        
+
+    }
+
     public void startEvent()
     {
-        if (isLead)
+        if (relationLevel <= 8)
         {
-            if (isRdy && isOponenRdy)
-            {
-                message mes = new message("startEvent");
-                mes.addNetObject(DateData.getRandomDateEvent(themeID));
-                mes.getNetObject(0).addInt("relationLevel", relationLevel);
-                controlerPlayers.sendMessageToMatch(mes, ID, oponenID);
-            }
+            message mes = new message("startEvent");
+            output.outToScreen("start event debug test" + themeID);
+            mes.addNetObject(DateData.getRandomDateEvent(themeID));
+            mes.getNetObject(0).addInt("relationLevel", relationLevel);
+            controlerPlayers.sendMessageToMatch(mes, ID, oponenID);
+            relationLevel++;
         }
         else
         {
-            controlerPlayers.GetPlayer(oponenID).startEvent();
+            message mes = new message("endDate");
+            sendMessage(mes);
         }
     }
 
@@ -119,6 +147,8 @@ class Client
     public void unsetOponen()
     {
         oponenID = "";
+        message mes = new message("endDate");
+        sendMessage(mes);
     }
 
     private void confirmConnect()
@@ -216,19 +246,27 @@ class Client
                 break;
             /*----------------------------------------------------------------------------------------------------*/
             case "dateReady":
-                if (isLead)
-                {
-                    isRdy = true;
-                }
-                else
-                {
-                    controlerPlayers.GetPlayer(oponenID).isOponenRdy = true;
-                }
-                startEvent();
+                isRdy = true;
+                controlerPlayers.GetPlayer(oponenID).playerName = mes.getNetObject(0).getString(0);
+                sendName();
+                break;
+            /*----------------------------------------------------------------------------------------------------*/
+            case "requestDateStart":
+                startDate();
                 break;
             /*----------------------------------------------------------------------------------------------------*/
             case "sendImage":
                 mes.messageText = "receiveImage";
+                controlerPlayers.sendMessageToClient(mes, oponenID);
+                break;
+            /*----------------------------------------------------------------------------------------------------*/
+            case "sendText":
+                mes.messageText = "receiveText";
+                controlerPlayers.sendMessageToMatch(mes, ID, oponenID);
+                break;
+            /*----------------------------------------------------------------------------------------------------*/
+            case "sendSound":
+                mes.messageText = "receiveSound";
                 controlerPlayers.sendMessageToClient(mes, oponenID);
                 break;
         /*----------------------------------------------------------------------------------------------------*/
@@ -248,7 +286,7 @@ class Client
 
     public void sendMessage(message mes)
     {
-        //output.outToScreen(mes.id.ToString());
+        output.outToScreen(mes.messageText+ "outgoing");
         try
         {
 

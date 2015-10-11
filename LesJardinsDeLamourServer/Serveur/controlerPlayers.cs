@@ -28,8 +28,10 @@ class controlerPlayers
             AddPlayer(player.ID);
             AddPlayer(awaitingMatchup.ID);
             player.setIsLead(false);
-            awaitingMatchup.setOponen(player.ID);
+            
             player.setOponen(awaitingMatchup.ID);
+            awaitingMatchup.setOponen(player.ID);
+
             awaitingMatchup = null;
 
         }
