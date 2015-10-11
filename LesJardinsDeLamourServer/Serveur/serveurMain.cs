@@ -31,7 +31,7 @@ class serverMain
 
     public static int
         serverId = 1,
-        clientPort = 80;
+        clientPort = 20;
 
     private static Object lastId = new int();
 
@@ -120,6 +120,8 @@ class serverMain
         for (int i = 0; i < clients.Count; i++)
         {
             Client client = clients[i];
+            output.outToScreen("clientConnect");                    
+
             if (client.ID == sender.ID)
             {
                 client.handleMessage(conversionTools.convertBytesToMessage(data));

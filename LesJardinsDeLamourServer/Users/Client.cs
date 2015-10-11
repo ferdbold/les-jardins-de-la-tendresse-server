@@ -80,6 +80,7 @@ class Client
 
     private void startDate()
     {
+        output.outToScreen(isLead.ToString());
         if (isLead)
         {
             relationLevel = 0;
@@ -116,27 +117,15 @@ class Client
                 controlerPlayers.GetPlayer(oponenID).startEvent();
             }
         }
-
-        
-
     }
 
     public void startEvent()
     {
-        if (relationLevel <= 8)
-        {
-            message mes = new message("startEvent");
-            output.outToScreen("start event debug test" + themeID);
-            mes.addNetObject(DateData.getRandomDateEvent(themeID));
-            mes.getNetObject(0).addInt("relationLevel", relationLevel);
-            controlerPlayers.sendMessageToMatch(mes, ID, oponenID);
-            relationLevel++;
-        }
-        else
-        {
-            message mes = new message("endDate");
-            sendMessage(mes);
-        }
+        message mes = new message("startEvent");
+        mes.addNetObject(DateData.getRandomDateEvent(themeID));
+        mes.getNetObject(0).addInt("relationLevel", relationLevel);
+        controlerPlayers.sendMessageToMatch(mes, ID, oponenID);
+        relationLevel++;
     }
 
     public void setIsLead(bool value)
@@ -147,8 +136,22 @@ class Client
     public void unsetOponen()
     {
         oponenID = "";
+        endGame();
+    }
+
+    public void endGame()
+    {
+        if (oponenID != "")
+        {
+            controlerPlayers.GetPlayer(oponenID).endGame();
+        }
         message mes = new message("endDate");
         sendMessage(mes);
+        isLead = false;
+        oponenID = "";
+        isRdy = false;
+        playerName = "";
+        relationLevel = 0;
     }
 
     private void confirmConnect()
@@ -210,7 +213,6 @@ class Client
         }
         catch (Exception ex)
         {
-            output.outToScreen(ex.Message + " erreur");
 
             if (Disconnected != null)
             {
@@ -221,7 +223,6 @@ class Client
 
     public void Close()
     {
-        //controler_players.remove_player(ID);
         sck.Close();
         sck.Dispose();
     }
@@ -246,6 +247,10 @@ class Client
                 break;
             /*----------------------------------------------------------------------------------------------------*/
             case "dateReady":
+                if (relationLevel > 8)
+                {
+                    endGame();
+                }
                 isRdy = true;
                 controlerPlayers.GetPlayer(oponenID).playerName = mes.getNetObject(0).getString(0);
                 sendName();
@@ -271,7 +276,7 @@ class Client
                 break;
         /*----------------------------------------------------------------------------------------------------*/
             case "disconnect":
-                //serverMain.client_Disconnected(this);
+                controlerPlayers.Unqueud(this);
                 break;
             /*----------------------------------------------------------------------------------------------------*/
             default:
@@ -286,7 +291,7 @@ class Client
 
     public void sendMessage(message mes)
     {
-        output.outToScreen(mes.messageText+ "outgoing");
+        //output.outToScreen(mes.messageText+ "outgoing");
         try
         {
 
