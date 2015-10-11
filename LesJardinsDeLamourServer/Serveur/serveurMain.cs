@@ -31,7 +31,7 @@ class serverMain
 
     public static int
         serverId = 1,
-        clientPort = 20;
+        clientPort = 80;
 
     private static Object lastId = new int();
 
